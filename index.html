@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mouse Injection Game</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <!-- Preload images to verify loading -->
+    <link rel="preload" as="image" href="sad_mouse.png">
+    <link rel="preload" as="image" href="happy_mouse.png">
+    <link rel="preload" as="image" href="syringe.png">
+</head>
+<body>
+    <div id="game-container">
+        <div id="text-container">
+            <p>Tommy has tooth agenisis. You have the power to regrow his teeth. Will you help him?</p>
+            <p>Now, drag the Toregem syringe to Tommy's mouth to regrow his teeth.</p>
+        </div>
+        <div id="mouse-container">
+            <!-- Try different image formats if PNG doesn't work -->
+            <img id="sad-mouse" src="sad-mouse.png" alt="Sad Mouse" onerror="this.onerror=null; if(this.src.endsWith('.png')) this.src='sad_mouse.jpg'; else if(this.src.endsWith('.jpg')) this.src='sad_mouse.jpeg'; else if(this.src.endsWith('.jpeg')) this.src='sad_mouse.gif'; else console.error('Failed to load sad mouse image');">
+            <img id="happy-mouse" src="happy-mouse.png" alt="Happy Mouse" onerror="this.onerror=null; if(this.src.endsWith('.png')) this.src='happy_mouse.jpg'; else if(this.src.endsWith('.jpg')) this.src='happy_mouse.jpeg'; else if(this.src.endsWith('.jpeg')) this.src='happy_mouse.gif'; else console.error('Failed to load happy mouse image');">
+        </div>
+        <img id="syringe" src="syringe.png" alt="Syringe" onerror="this.onerror=null; if(this.src.endsWith('.png')) this.src='syringe.jpg'; else if(this.src.endsWith('.jpg')) this.src='syringe.jpeg'; else if(this.src.endsWith('.jpeg')) this.src='syringe.gif'; else console.error('Failed to load syringe image');">
+        <button id="play-again" onclick="location.reload()">Play Again</button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html> 
