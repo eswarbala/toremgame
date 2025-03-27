@@ -23,7 +23,7 @@ body {
 
 #mouse-container {
     position: absolute;
-    top: 40%;
+    top: 35%;
     left: 38%;
     transform: translateX(-50%);
     margin-bottom: 0;
