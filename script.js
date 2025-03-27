@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const mouseContainer = document.getElementById('mouse-container');
 
     // Check if images are loaded correctly
-    checkImagesLoaded();
+    // checkImagesLoaded();
 
     let isDragging = false;
     let offsetX, offsetY;
