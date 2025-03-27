@@ -32,7 +32,7 @@ body {
 }
 
 #sad-mouse, #happy-mouse {
-    width: 400px;
+    width: 350px;
     height: auto;
     position: absolute;
     top: 0;
@@ -145,4 +145,23 @@ body {
     100% {
         background-position: 0% 50%;
     }
+}
+
+#back-arrow {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 100;
+    text-decoration: none;
+    transition: transform 0.2s ease;
+}
+
+#back-arrow:hover {
+    transform: scale(1.1);
+}
+
+#back-arrow img {
+    width: 40px;
+    height: 40px;
+    filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.3));
 } 
