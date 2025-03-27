@@ -1,8 +1,13 @@
 document.addEventListener('DOMContentLoaded', () => {
     const syringe = document.getElementById('syringe');
+    const denture = document.getElementById('denture');
     const sadMouse = document.getElementById('sad-mouse');
     const happyMouse = document.getElementById('happy-mouse');
     const mouseContainer = document.getElementById('mouse-container');
+    const incorrectSound = document.getElementById('incorrect-sound');
+
+    // Create audio context for sound effects
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
     // Check if images are loaded correctly
     // checkImagesLoaded();
@@ -10,10 +15,17 @@ document.addEventListener('DOMContentLoaded', () => {
     let isDragging = false;
     let offsetX, offsetY;
     let isClicked = false;
+    let isDraggingDenture = false;
+    let dentureOffsetX, dentureOffsetY;
+    let isClickedDenture=false;
 
     // Make the syringe draggable
     syringe.addEventListener('mousedown', startDrag);
     syringe.addEventListener('touchstart', handleTouch);
+
+    // Make the denture draggable
+    denture.addEventListener('mousedown', startDragDenture);
+    denture.addEventListener('touchstart', handleTouchDenture);
 
     function checkImagesLoaded() {
         console.log("Checking images loaded status:");
@@ -181,7 +193,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Add success message
         const successText = document.createElement('p');
-        successText.textContent = 'Good job!! You have successfully inhibited Tommy\'s USAG-1 protein allowing him to regrow his teeth.';
+        successText.textContent = 'Good job!! You have successfully inhibited Tommy\'s USAG-1 protein, allowing him to regrow his teeth. Thanks for learning about tissue engineering and Toregem!';
         successText.style.color = '#4CAF50'; // Green color for success
         
         // Add animation to the text
@@ -254,7 +266,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 audio.volume = 0.3;
                 // Using oscillator for sound effect since we don't have actual audio files
                 try {
-                    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
                     const oscillator = audioCtx.createOscillator();
                     const gainNode = audioCtx.createGain();
                     
@@ -272,6 +283,236 @@ document.addEventListener('DOMContentLoaded', () => {
                     console.log("Audio context not supported");
                 }
             }, i * 200);
+        }
+    }
+
+    function handleTouchDenture(e) {
+        isDraggingDenture = true;
+        isClickedDenture = true;
+        const touch = e.touches[0];
+        dentureOffsetX = touch.clientX - denture.getBoundingClientRect().left;
+        dentureOffsetY = touch.clientY - denture.getBoundingClientRect().top;
+        
+        // Ensure syringe is on top during dragging
+        denture.style.zIndex = '100';
+        
+        // Add event listeners for touch movement and end
+        document.addEventListener('touchmove', dragTouchDenture);
+        document.addEventListener('touchend', endDragTouchDenture);
+        
+        // Prevent default behavior to avoid scrolling during drag
+        e.preventDefault();
+    }
+    
+    function startDragDenture(e) {
+        isDraggingDenture = true;
+        isClickedDenture = true;
+        dentureOffsetX = e.clientX - denture.getBoundingClientRect().left;
+        dentureOffsetY = e.clientY - denture.getBoundingClientRect().top;
+        
+        // Ensure syringe is on top during dragging
+        denture.style.zIndex = '100';
+        
+        // Add event listeners for mouse movement and release
+        document.addEventListener('mousemove', dragDenture);
+        document.addEventListener('mouseup', endDragDenture);
+        
+        // Prevent default behavior to avoid text selection during drag
+        e.preventDefault();
+    }
+
+    function dragDenture(e) {
+        if (isDraggingDenture) {
+            denture.style.position = 'absolute';
+            denture.style.left = `${e.clientX - dentureOffsetX}px`;
+            denture.style.top = `${e.clientY - dentureOffsetY}px`;
+            
+            playIncorrectSound();
+
+            // checkDentureCollision();
+        }
+    }
+    
+    function dragTouchDenture(e) {
+        if (isDraggingDenture) {
+            const touch = e.touches[0];
+            denture.style.position = 'absolute';
+            denture.style.left = `${touch.clientX - dentureOffsetX}px`;
+            denture.style.top = `${touch.clientY - dentureOffsetY}px`;
+
+            playIncorrectSound(); 
+
+            // checkDentureCollision();
+
+            e.preventDefault();
+        }
+    }
+    
+    function endDragDenture() {
+        isDraggingDenture = false;
+        // Return to normal z-index when not dragging
+        denture.style.zIndex = '30';
+        document.removeEventListener('mousemove', dragDenture);
+        document.removeEventListener('mouseup', endDragDenture);
+    }
+    
+    function endDragTouchDenture() {
+        isDraggingDenture = false;
+        // Return to normal z-index when not dragging
+        denture.style.zIndex = '30';
+        document.removeEventListener('touchmove', dragTouchDenture);
+        document.removeEventListener('touchend', endDragTouchDenture);
+    }
+    
+
+//     function startDragDenture(e) {
+//         isDraggingDenture = true;
+//         dentureOffsetX = e.clientX - denture.getBoundingClientRect().left;
+//         dentureOffsetY = e.clientY - denture.getBoundingClientRect().top;
+        
+//         // Ensure denture is on top during dragging
+//         denture.style.zIndex = '100';
+        
+//         // Add event listeners for mouse movement and release
+//         document.addEventListener('mousemove', dragDenture);
+//         document.addEventListener('mouseup', endDragDenture);
+        
+//         // Prevent default behavior to avoid text selection during drag
+//         e.preventDefault();
+//     }
+
+//     function handleTouchDenture(e) {
+//         isDraggingDenture = true;
+//         const touch = e.touches[0];
+//         dentureOffsetX = touch.clientX - denture.getBoundingClientRect().left;
+//         dentureOffsetY = touch.clientY - denture.getBoundingClientRect().top;
+        
+//         // Ensure denture is on top during dragging
+//         denture.style.zIndex = '100';
+        
+//         // Add event listeners for touch movement and end
+//         document.addEventListener('touchmove', dragDentureTouch);
+//         document.addEventListener('touchend', endDragDentureTouch);
+        
+//         // Prevent default behavior to avoid scrolling during drag
+//         e.preventDefault();
+//     }
+
+//     function dragDenture(e) {
+//         if (isDraggingDenture) {
+//             denture.style.position = 'absolute';
+//             denture.style.left = `${e.clientX - dentureOffsetX}px`;
+//             denture.style.top = `${e.clientY - dentureOffsetY}px`;
+            
+//             checkDentureCollision();
+//         }
+//     }
+
+//     function dragDentureTouch(e) {
+//         if (isDraggingDenture) {
+//             const touch = e.touches[0];
+//             denture.style.position = 'absolute';
+//             denture.style.left = `${touch.clientX - dentureOffsetX}px`;
+//             denture.style.top = `${touch.clientY - dentureOffsetY}px`;
+            
+//             checkDentureCollision();
+//             e.preventDefault();
+//         }
+//     }
+
+//     function endDragDenture() {
+//         isDraggingDenture = false;
+//         // Return to normal z-index when not dragging
+//         denture.style.zIndex = '30';
+//         document.removeEventListener('mousemove', dragDenture);
+//         document.removeEventListener('mouseup', endDragDenture);
+//     }
+
+//     function endDragDentureTouch() {
+//         isDraggingDenture = false;
+//         // Return to normal z-index when not dragging
+//         denture.style.zIndex = '30';
+//         document.removeEventListener('touchmove', dragDentureTouch);
+//         document.removeEventListener('touchend', endDragDentureTouch);
+//     }
+
+    function checkDentureCollision() {
+        // Get bounding rectangles
+        const dentureRect = denture.getBoundingClientRect();
+        const mouseRect = sadMouse.getBoundingClientRect();
+        
+        // Calculate centers
+        const dentureCenter = {
+            x: dentureRect.left + dentureRect.width / 2,
+            y: dentureRect.top + dentureRect.height / 2
+        };
+        
+        const mouseCenter = {
+            x: mouseRect.left + mouseRect.width / 2,
+            y: mouseRect.top + mouseRect.height / 2
+        };
+        
+        // Calculate distance between centers
+        const distance = Math.sqrt(
+            Math.pow(dentureCenter.x - mouseCenter.x, 2) + 
+            Math.pow(dentureCenter.y - mouseCenter.y, 2)
+        );
+        
+        // Define a closer proximity requirement (adjust this value as needed)
+        const proximityThreshold = Math.min(mouseRect.width, mouseRect.height) * 1.2;
+        
+        // Check if denture is within the required proximity of the mouse
+        if (distance < proximityThreshold && isClickedDenture) {
+            // Play incorrect sound
+            playIncorrectSound();
+            
+            // // Animation effect
+            // denture.style.transform = 'scale(0.8) rotate(180deg)';
+            // setTimeout(() => {
+            //     denture.style.transform = 'scale(1) rotate(180deg)';
+            // }, 200);
+            
+            // Reset denture position to original position
+            denture.style.position = 'absolute';
+            denture.style.left = 'calc(60% - 75px)';
+            denture.style.top = '1%';
+            
+            // End dragging and reset flags
+            isDraggingDenture = false;
+            isClickedDenture = false;
+            
+            // Remove event listeners
+            document.removeEventListener('mousemove', dragDenture);
+            document.removeEventListener('mouseup', endDragDenture);
+            document.removeEventListener('touchmove', dragTouchDenture);
+            document.removeEventListener('touchend', endDragTouchDenture);
+        }
+    }
+
+    // Function to play incorrect sound
+    function playIncorrectSound() {
+        try {
+            const oscillator = audioCtx.createOscillator();
+            const gainNode = audioCtx.createGain();
+            
+            // Use a softer sine wave instead of sawtooth
+            oscillator.type = 'sine';
+            
+            // Create a descending "boop" sound
+            oscillator.frequency.setValueAtTime(440, audioCtx.currentTime); // A4 note
+            oscillator.frequency.exponentialRampToValueAtTime(220, audioCtx.currentTime + 0.3); // A3 note
+            
+            // Softer volume envelope
+            gainNode.gain.setValueAtTime(0.2, audioCtx.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+            
+            oscillator.start();
+            oscillator.stop(audioCtx.currentTime + 0.3);
+        } catch (e) {
+            console.log("Audio context not supported");
         }
     }
 }); 

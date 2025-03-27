@@ -55,6 +55,16 @@ body {
     z-index: 30;
 }
 
+#denture {
+    width: 110px;
+    height: auto;
+    cursor: move;
+    position: absolute;
+    bottom: 1%;
+    left: calc(60% - 75px);
+    z-index: 30;
+}
+
 #text-container {
     position: absolute;
     bottom: 10%;
