@@ -42,8 +42,8 @@ body {
 
 #happy-mouse {
     display: none;
-    top: 50%;
-    transform: scale(1.5);
+    top: 55%;
+    transform: scale(1.2);
 }
 
 #syringe {
