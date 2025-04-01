@@ -41,9 +41,8 @@ body {
 }
 
 #happy-mouse {
-    position: absolute;
     display: none;
-    top: 75%;
+    top: 95%;
     transform: scale(1.0);
 }
 
