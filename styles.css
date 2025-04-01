@@ -42,6 +42,7 @@ body {
 
 #happy-mouse {
     display: none;
+    top: 50%;
     transform: scale(1.5);
 }
 
