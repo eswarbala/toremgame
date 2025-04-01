@@ -52,7 +52,7 @@ body {
     bottom: 1%;
     left: calc(40% - 75px);
     transform: rotate(0deg);
-    transform: scale(0.75)
+    transform: scale(0.75);
     z-index: 30;
 }
 
