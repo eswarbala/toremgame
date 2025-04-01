@@ -169,9 +169,9 @@ document.addEventListener('DOMContentLoaded', () => {
             updateSuccessText();
             
             // Animation effect
-            syringe.style.transform = 'scale(0.8) rotate(180deg)';
+            syringe.style.transform = 'scale(0.75) rotate(0deg)';
             setTimeout(() => {
-                syringe.style.transform = 'scale(1) rotate(180deg)';
+                syringe.style.transform = 'scale(0.75) rotate(0deg)';
             }, 200);
             
             // Trigger confetti and fireworks
